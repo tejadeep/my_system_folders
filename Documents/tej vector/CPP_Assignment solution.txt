@@ -1,0 +1,1419 @@
+#include<iostream>
+#include<math.h>
+#include<string.h>
+#include<typeinfo>
+using namespace std;
+/*36.Write a C++ program to explain the nested class.*/
+/*
+class A
+{
+	int x,y;	
+	public:
+		class B
+		{
+			int u,v;
+			public :
+				B()
+				{
+					u = 10,v = 20;
+				}
+				void print()
+				{
+					cout << "u - " << u << " v - " << v << endl;
+				}
+		}b;
+		A()
+		{
+			x = 11, y = 22;
+		}
+		void print()
+		{
+			cout << "x - " << x << " y - " << y << endl;
+			b.print();
+		}
+};
+int main()
+{
+	A obj;
+	obj.print();
+}*/
+/*35.Write a C++ program to define virtual destructors ?*/
+/*
+class A
+{
+	public :
+		A(){cout << "A const\n";}
+		virtual ~A(){cout << "A dest\n";}
+};
+class B : public A
+{
+	public :
+		B(){cout << "B const\n";}
+		~B(){cout << "B dest\n";}
+};
+class C : public B
+{
+	public :
+		C(){cout << "C const\n";}
+		~C(){cout << "C dest\n";}
+};
+int main()
+{
+	A *bptr = new C;
+	delete bptr;
+}
+*/
+/* 34.Write a C++ program  define definition of member function template outside the class and  
+invoke the function  to overload + operator for performing addition of two template based   
+class objects ?*/
+/*
+#define datatype char
+template<class t1>
+class A
+{
+	t1 x;	
+	public :
+		A (){}
+		A(t1 a) : x(a){}
+		A operator+(A &ob1);
+		void print()
+		{
+			cout << "x - " << x << endl;
+		}
+};
+template<class t1>
+A<t1> A<t1>::operator+(A &ob1)
+{
+	A temp;
+	temp.x = x + ob1.x;
+	return temp;
+}
+int main()
+{
+	A <datatype>obj1('A');
+	A <datatype>obj2('B');
+	A <datatype>obj3 = obj1 + obj2;
+	obj1.print();
+	obj2.print();
+	obj3.print();
+}
+*/
+/* 33.Write a C++ program to implement Stack using class templates.*/
+
+#define MAX 5
+#define datatype char 
+template<class t> 
+class stack
+{
+	t stk[MAX] ;
+	static int top;
+	public :
+		stack()
+		{
+			top = 0;
+			for(int i=0;i<MAX;i++)
+				stk[i] = 0;
+		}
+		void push();
+		void pop();
+		void display();
+};
+template<class t> 
+void stack<t>::push()
+{
+	if (top == MAX)
+	{
+		cout << "stack oveflow\n";
+		return;
+	}
+	else
+	{ 
+		t data;
+		cout << "enter data : " ;
+		cin >> data;
+		stk[top] = data;
+		top = top + 1;
+	}	
+}
+template<class t> 
+void stack<t>::pop()
+{
+	if(top < 1)
+	{
+		cout << "stack under flow\n";
+		return;
+	}
+	else
+	{
+		t num = stk[top -1];
+		cout << "data removed : " << num << endl;;
+		stk[top - 1] = 0;
+		top = top - 1;
+	}
+}
+template<class t> 
+void  stack<t>::display()
+{
+	for(int i=0;i<MAX;i++)
+		cout << stk[i] << " " ;
+	cout << "\n";
+}
+
+template<class t> 
+int stack<t> :: top = 0;
+
+int main()
+{
+	stack<datatype> s;
+	int op;
+	do
+	{	
+		cout << "what u want to do select : 1) push 2) pop 3)display 4)exit" << endl;
+		cin >> op;
+
+		switch(op)
+		{
+	
+			case 1 :	s.push();
+					break;
+			case 2 :	s.pop();
+					break;
+			case 3 :	s.display();
+					break;
+			case 4 :	cout << "Exited\n";
+					break;
+			default:        cout << "Invalid Option\n";
+					
+		}
+	}while(op != 4);
+}
+
+/*32.Write a  C++  to exchange the values of two variables. Using template variables as a 
+function arguments in generic way ?*/
+/*
+template<class t>
+void exchange(t &a,t &b)
+{
+	t temp;
+	temp = a;
+	a = b;
+	b = temp;
+	
+	cout << "a - " << a << " b - " << b <<endl;  
+}
+int main()
+{
+	int i=10,j=20;
+	char ch='N', ch1='S';
+	float f1= 12.3, f2=20.9;
+
+	exchange(i,j);
+	exchange(ch1,ch);
+	exchange(f1,f2);
+}
+*/
+/*31.Write a  C++ to overload a template function.*/
+//////////////////SAME AS Q NO> 29//////////////////
+
+/*30.Write a C++ program to find the minimum of 2 numbers using function template with multiple arguments.*/
+/*
+template<class t,class t1>
+void sort(t &a,t1 &b)
+{
+	if(*typeid(a).name() == 'i')
+		cout << "a is int" << endl;
+	else if(*typeid(a).name() == 'c')
+		cout << "a is char " << endl;
+	else if(*typeid(a).name() == 'f')
+		cout << "a is float " << endl;
+
+	if(*typeid(b).name() == 'i')
+		cout << "b is int" << endl;
+	else if(*typeid(b).name() == 'c')
+		cout << "b is char " << endl;
+	else if(*typeid(b).name() == 'f')
+		cout << "b is float " << endl;
+
+	if(a < b)
+		cout << "a is min - " << a << endl;
+	else if(a == b)
+		cout << "both a and b equal" << endl;
+	else
+		cout << "b is min " << b << endl;
+}
+int main()
+{
+	int i=10;
+	char ch = 'S';
+	float f = 12.5;
+
+	sort(i,ch);
+	sort(f,ch);
+	sort(i,f);
+}
+*/
+/*29.Write a C++ program to sort data items in ascending order using function templates.*/
+/*
+template<class t>	
+void sort(t a[])
+{
+	for(int i=0;i<5;i++)
+		for(int j=0;j<5;j++)
+		{
+			if(a[i]<a[j])
+			{
+				t temp;
+				temp = a[i];
+				a[i] = a[j];
+				a[j] = temp;
+			}
+		}
+	for(int i=0;i<5;i++)
+		cout << a[i] << " ";
+	cout << endl ;
+} 
+int main()
+{
+	int arr[5] = {5,2,4,3,1};
+	sort(arr);
+	char c_arr[5] = {'M','N','S','T','B'};
+	sort(c_arr);
+	float f_arr[5] = {1.2,3.9,6.5,4.2,5.89};
+	sort(f_arr);
+}
+*/
+/*28.Write a C++ program to design a base class called student with name, roll and age as its data
+members. Using inheritance create two new classes  UGStudent and PGStudent with    
+ semester, fees and datepaid as their data members. Enter the data for 5 students. Find the 
+  average age, semester-wise for all UG and PG students.*/
+/*
+//////////////////NOT CORRECT QUESTION/////////////////////////
+class student
+{
+	string name,int roll,int age;
+};
+class UGstudent
+{
+	int sem,fees,datepaid;
+};
+class PGstudent
+{
+
+};
+int main()
+{
+
+
+}
+*/
+/*Consider a example of declaring the examination result. Design three classes: student, exam 	and result. 	The student class has data members such as those representing roll number,name etc. Create the class exam by inheriting the student class. The exam class adds data members representing the marks scored in six subjects. Derive the result from the exam class and it has its own data members such as total_marks. Write an interactive program to model this relationship. What type of inheritance this model belongs to ?*/
+/*
+class student
+{
+	int roll;string name;
+	public :
+		student(int r,string n) : roll(r),name(n){}
+		void print_s()
+		{
+			cout << "student roll : " << roll << "\nname         : " << name;
+		}
+};
+class exam  : public student
+{
+	float sub1,sub2,sub3,sub4,sub5;
+	public :
+		exam(int r,string n,float a,float b,float c, float d, float e) : student(r,n),sub1(a),sub2(b),sub3(c),sub4(d),sub5(e) {}
+		void print_e()
+		{
+			cout << "\n5 sub Marks : ";
+			cout << sub1 << " "<< sub2 << " " << sub3 << " " << sub4 << " " << sub5 ;
+		}
+};
+class result : public exam
+{
+	float total_marks;
+	public :
+		result(int r,string n,float a,float b,float c,float d,float e,float t) : exam(r,n,a,b,c,d,e),total_marks(t) {}
+		void print_r()
+		{
+			cout << "\ntotal marks : " << total_marks << endl;
+		}
+};
+int main()
+{
+	result stu1(10,"nir",1,2,3,4,5,1+2+3+4+5);
+	result stu2(11,"shr",2,3,4,5,6,2+3+4+5+6);
+	stu1.print_s();
+	stu1.print_e();
+	stu1.print_r();
+	stu2.print_s();
+	stu2.print_e();
+	stu2.print_r();
+}
+*/
+/*27.Write a C++ program to demonstrate Hybrid Inheritence.*/
+/*
+class B;
+class C;
+class D;
+class A
+{
+	private :
+	int x,y;
+	public :
+		A(){}
+		A(int a,int b) : x(a),y(b) {}
+		void print_a()
+		{
+			cout << "x - " << x << " y - "<< y << endl;
+		}
+};
+class B : public A
+{
+	private :
+	int j,k;
+	public :
+		B(){}
+		B(int a,int b,int c,int d) : A(a,b),j(c),k(d) {}
+		void print_b()
+		{
+			cout << "j - " << j << " k - "<< k << endl;
+		}
+};
+class C 
+{
+	private :
+	int l,m;
+	public :
+		C(){}
+		C(int a,int b) : l(a),m(b){}
+		void print_c()
+		{
+			cout << "l - " << l << " m - "<< m << endl;
+		}
+};
+class D : public B,public C
+{
+	private :
+	int n,s;
+	public : 
+		D(){}
+		D(int a,int b,int c,int d,int e,int f,int g,int h) : B(a,b,c,d),C(e,f),n(g),s(h) {}
+		void print()
+		{
+			cout << "n - " << n << " s - "<< s << endl;
+		}
+};
+int main()
+{
+	
+	D obj(10,20,30,40,50,60,70,80);
+	obj.print();
+	obj.print_b();
+	obj.print_c();
+	obj.print_a();
+}
+*/
+/*26. Write a C++ program to Overload -> operator.*/
+
+/*
+class A
+{
+	int x,y;
+	public :
+		A(){}
+		A(int a,int b) : x(a),y(b){}
+		A* operator->(void)
+		{
+			cout << "Arrow operator\n ";
+			return this;
+		}
+		void print()
+		{
+			cout << "x - " << x << " y - " << y << endl; 	
+		}
+};
+int main()
+{
+	A obj(10,20);
+	obj->print();
+}
+*/
+
+/* 25.Write a C++ program to Overload ( ) operator.*/
+/*
+class A
+{
+	int x,y;
+	public :
+		A(){}
+		void operator()(int a,int b)
+		{
+			x=a,y=b;
+		}
+		void print()
+		{
+			cout << "x - " << x <<  " y - " << y << endl;
+		}
+};
+int main()
+{
+	A obj,obj2,obj3;
+	obj(10,20);obj2(11,22);obj3(12,24);
+	obj.print();
+	obj2.print();
+	obj3.print();
+}
+*/
+/* 24. Write a C++ program to Overload [ ] operator.*/
+/*
+class A
+{
+	int a[5];
+	public:
+		A()
+		{
+			for (int i=0;i<5;i++)
+			 	a[i] = i+10;
+		}
+		int operator[](int index)
+		{
+			return a[index];
+		}
+};
+int main()
+{
+	A obj;
+	for(int i=0;i<5;i++)
+		cout << " a["<< i << "] = "<< obj[i];
+		cout<<"\n";
+}
+*/
+/*23.Write a C++ program to Overload new and delete operators.*/
+/*
+#include<stdlib.h>
+class A
+{
+	int x,y;
+	public :
+		A(){}
+		void *operator new(long unsigned int x)
+		{
+			cout << "new \n";
+			void *temp = malloc(x);
+			return temp;
+		}
+		void operator delete(void *p)
+		{
+			cout << "delete\n";
+			free(p);
+		}
+};
+int main()
+{
+	A *ptr = new A;	
+	delete ptr;
+}
+*/
+/* 22.Write a C++ program to Overload  insertion (<<) and extraction (>>) operators using friend functions.*/
+/*
+class A
+{
+	int x,y;
+	public :
+		A (){}
+		A (int a,int b): x(a),y(b){}		
+		friend ostream& operator<<(ostream &out,A &ob);
+		friend istream& operator>>(istream &in,A &ob);
+};
+ostream& operator<<(ostream &out,A &ob)
+{
+	out << "x - "<< ob.x << " y - " << ob.y << endl;
+}
+istream& operator>>(istream &in,A &ob)
+{
+	in >> ob.x >> ob.y;
+}
+int main()
+{
+	A obj;
+	cout << "Enter x and y \n";
+	cin >> obj;
+	cout << obj;
+}
+*/
+/* 21.Write a C++ program to  Overload binary ' + ' operator for the given expression.
+  OBJ2 = 100+OBJ1 (Hint: Use Friend Function)*/
+/*
+class A
+{
+	int x,y;
+	public :
+		A(){}
+		A(int a,int b): x(a),y(b){}
+		friend A operator+(A &ob,int s);
+		friend void print(A &ob);
+};
+A operator+(A &ob,int s)
+{
+	A temp;
+	temp.x = s + ob.x;
+	temp.y = s + ob.y;
+	return temp;
+}
+void print(A &ob)
+{
+	cout << "x - " << ob.x << endl;
+	cout << "y - " << ob.y << endl;
+} 
+int main()
+{
+	A obj1(10,20);
+	A obj2 = obj1 + 100;
+	print(obj1);
+	print(obj2);
+}
+*/
+/*20. Write a C++ program to Overload Post increment(++) and Pre increment(++) operators  
+ using freind function.*/
+/*
+class A
+{
+	int x,y;
+	public :
+		A(){}
+		A(int a,int b): x(a),y(b){}
+		friend A operator++(A &ob,int);
+		friend A operator++(A &ob);
+		friend void print(A &ob);
+};		
+A operator++(A &ob)
+{
+	++ob.x;
+	++ob.y;
+}
+A operator++(A &ob,int)
+{
+	A temp;
+	temp.x = ob.x++;
+	temp.y = ob.y++;
+	return temp;
+}
+void print(A &ob)
+{
+	cout << "x - " << ob.x << endl;
+	cout << "y - " << ob.y << endl;
+}
+int main()
+{
+	A obj1(10,20),obj2;
+	cout << "post incr\n";
+	obj2 = obj1++;
+	print(obj2);
+	print(obj1);
+	cout << "pre incr\n";
+	++obj2;
+	print(obj2);
+}
+*/
+/* 19.Write a C++ program to Overload  unary ' - ' operator.*/
+/*
+class A
+{	
+	int x,y;
+	public:
+	A(){}
+	A(int a,int b): x(a),y(b){}		
+	A operator-()
+	{
+		A temp;
+		temp.x = - x;
+		temp.y = - y;	
+		return temp;
+	}
+	void print()
+	{
+		cout << "x - " << x << endl;
+		cout << "y - " << y << endl;
+	}
+};
+int main()
+{
+	A obj1(70,50);
+	A obj2 = - obj1;	
+	obj2.print();
+}
+*/
+/*18.Write a C++ program to demonstrate Singleton Class.*/
+///////////////////////////////LAN PROGRAM///////////////////////////////////
+/*
+class Singleton
+{
+private:
+    static bool instanceFlag;
+    static Singleton *single;
+    Singleton()
+    {
+        //private constructor
+    }
+public:
+    static Singleton* getInstance();
+    void method();
+    ~Singleton()
+    {
+        instanceFlag = false;
+    }
+};
+
+bool Singleton::instanceFlag = false;
+Singleton* Singleton::single = NULL;
+Singleton* Singleton::getInstance()
+{
+    if(! instanceFlag)
+    {
+        single = new Singleton();
+        instanceFlag = true;
+        return single;
+    }
+    else
+    {
+        return single;
+    }
+}
+
+void Singleton::method()
+{
+    cout << "Method of the singleton class" << endl;
+}
+
+int main()
+{
+    Singleton *sc1,*sc2;
+    sc1 = Singleton::getInstance();
+    sc1->method();
+    sc2 = Singleton::getInstance();
+    sc2->method();
+
+    return 0;
+}*/
+/*17.Write a C++ program to sort the given five names from the keyboard and print it in the sorted order. (Use C++'s DMA).*/
+/*
+#define MAX 5
+class A
+{
+	char *str[MAX];
+	public :
+		A()
+		{
+			char p[30];
+			for(int i=0;i<MAX;i++)
+				{
+					cout << "Enter String ...\n";
+					cin >> p;
+					str[i] = new char (strlen(p+1));
+					strcpy(str[i],p);
+				}
+	}
+			
+}
+int main()
+{
+	B obj(11,22,33,44);
+	obj.print();
+}
+*/
+/*17.Write a C++ program to sort the given five names from the keyboard and print it in the sorted order. (Use C++'s DMA).*/
+/*
+#define MAX 5
+class A
+{
+	char *str[MAX];
+	public :
+		A()
+		{
+			char p[30];
+			for(int i=0;i<MAX;i++)
+				{
+					cout << "Enter String ...\n";
+					cin >> p;
+					str[i] = new char (strlen(p+1));
+					strcpy(str[i],p);
+				}
+		}
+		friend void sort(A &);
+		friend void print(A &);
+};
+void sort(A &ob)
+{
+	for(int i=0;i<MAX;i++)
+		for(int j=0;j<MAX;j++)
+		{
+			if(strcmp(ob.str[i],ob.str[j]) == -1)
+			{
+				char* temp;
+				temp = ob.str[i];
+				ob.str[i] = ob.str[j];
+				ob.str[j] = temp;
+			}
+		}
+}
+void print(A &ob)
+{
+	for(int i=0;i<MAX;i++)
+	{
+		cout << ob.str[i] << "  " ;
+	}	
+		cout << endl;
+	
+}
+int main()
+{
+	A obj;
+	cout << "Before sorting\n\n";
+	print(obj);
+	sort(obj);
+	cout << "After sorting\n\n";
+	print(obj);
+}
+*/
+/*16.Write a C++ program to demonstrate Dynamic Constructor.*/
+/*
+class A
+{
+	int x,y;
+	public :
+	A():x(10),y(20)
+	{
+		cout << "DEf...\n";
+	}
+	A(int a,int b):x(a),y(b)
+	{
+		cout << "Parameterized....\n";
+	}
+	void print()
+	{
+		cout << " x - " << x << " y - " << x << endl;
+	}
+};
+int main()
+{
+	A *obj1 = new A;
+	A *obj2 = new A(11,22);
+	
+	obj1 -> print();
+	obj2 -> print();	
+
+	delete obj1;
+	delete obj2;
+}
+*/
+/*15.Write a C++ program to impliment Private Constructor.*/
+/*
+class ATM
+{	
+	static int count;
+	ATM() { ++count;} 					//static data member
+	public :
+		static void ATM_fun()				//static function can access static data member
+		{
+			cout << "ATM_fun \n"; 
+			ATM log;   				// ATM constuctor call
+		}
+		static void print()
+		{	
+			cout << "No.of mem Enterd :- "<< count << endl;;
+		}
+};
+int ATM :: count = 0;		// medatory in static data mem initialization
+int main()
+{
+	char ch;
+	do
+	{
+		ATM :: ATM_fun();
+		cout << "Do u want to access bank\n";
+		cin >> ch;
+	}while(ch == 'y' || ch == 'Y');
+	ATM:: print();
+}
+*/
+/*14.Write a C++ program to demonstrate Deep Copy.*/
+/*
+class A
+{
+	char* str ;
+	public:
+	A(const char* p)
+	{
+		cout << "Parametrized Constructor\n";
+		str = new char [strlen(p) + 1];
+		strcpy(str, p);
+	}
+	A(A &ob)
+	{
+		cout << "Deep copy\n";
+		str = new char [strlen(ob.str) + 1];
+		strcpy(str,ob.str);
+	
+	}
+	void modify()
+	{
+		str[0] = 'S';
+		str[1] = 'H';
+	}
+	void print()
+	{
+		cout << "str - "<< str << endl;
+	}
+};
+int main()
+{
+	A obj1("NIR");
+	A obj2(obj1);
+	obj1.modify();
+	obj1.print();
+	obj2.print();
+}
+*/
+/*13.Write a C++ program to demonstrate Shallow Copy.*/
+/*
+class A
+{
+	char* str ;
+	public:
+	A(const char* p)
+	{
+		cout << "Parametrized Constructor\n";
+		str = new char [strlen(p) + 1];
+		strcpy(str, p);
+	}
+	void modify()
+	{
+		str[0] = 'S';
+		str[1] = 'H';
+	}
+	void print()
+	{
+		cout << "str - "<< str << endl;
+	}
+};
+int main()
+{
+	A obj1("NIR");
+	A obj2 = obj1;
+	obj1.modify();
+	obj1.print();
+	obj2.print();
+}
+*/
+/*12. Write a C++ Program to declare 3 classes. Declare private integers array as data members in each class. Perform addition of two data member arrays into array of third class using friend function.*/
+/*
+#define MAX 5
+class B;
+class C;
+class A
+{
+	int arr[MAX];
+		public :
+		A()
+		{
+			for(int i=0;i<MAX;i++)
+				arr[i] = i + 11;
+		}
+		friend void add(A &, B &,C &);
+		friend void print(A &,B &,C &);
+};
+class B
+{
+	int arr1[MAX];
+		public :
+		B()
+		{
+			for(int i=0;i<MAX;i++)
+				arr1[i] = i + 21;
+		}
+		friend void add(A &, B &,C &);
+		friend void print(A &,B &,C &);
+};
+class C
+{
+	int arr2[MAX];
+		public :
+		friend void  add(A &, B &,C &);
+		friend void print(A &,B &,C &);			
+};
+void add(A &ob1,B &ob2,C &ob3)
+{
+	for(int i=0;i<MAX;i++)
+	{
+		ob3.arr2[i] = ob1.arr[i] + ob2.arr1[i];
+	}
+}
+void print(A &ob1,B &ob2,C &ob3)
+{
+	for(int i=0;i<MAX;i++)
+	{
+		cout << "arr[" << i <<"] -> " << ob1.arr[i] << "  " ;
+		cout << " +  arr1[" << i <<"] -> " << ob2.arr1[i] << "  ";
+		cout << "   =   arr2[" << i <<"] -> " << ob3.arr2[i] << endl;
+	}	
+}
+int main()
+{
+	A obj1;
+	B obj2;
+	C obj3;
+	add(obj1,obj2,obj3);
+	print(obj1,obj2,obj3);
+}
+*/
+/*11.Write a C++ program to find total salary of husband and wife using a friend function. Create  
+ a class to hold the information of husband and another for the wife information.*/
+/*
+class WIFE;
+class HUSBAND
+{
+	string name;int salary;
+	public :
+		HUSBAND()
+		{	
+			name = "N" ; salary = 100000;
+		}
+		friend void print(HUSBAND &,WIFE &);
+		friend int total_salary(HUSBAND &,WIFE &);
+};
+class WIFE
+{
+	string name;int salary;
+	public :
+		WIFE()
+		{	
+			name = "S" ; salary = 200000;
+		}
+		friend void print(HUSBAND &,WIFE &);
+		friend int total_salary(HUSBAND &,WIFE &);
+
+};
+void print(HUSBAND &h,WIFE &w)
+{
+	cout << "Husaband name : " << h.name << "      salary : " << h.salary <<" \n\t\t\t\t   +  "<< endl;
+	cout << "Wife name : " << w.name << "          salary : " << w.salary << " \n\t\t\t\t  = "<< endl;
+}
+int total_salary(HUSBAND &h,WIFE &w)
+{
+	int s = h.salary + w.salary;
+	return s;	
+}
+int main()
+{
+	HUSBAND H;
+	WIFE W; 
+	
+	print(H,W);
+	int s = total_salary(H,W);
+	cout << "Toatal salary of hus and wife : " << s << endl;
+}
+*/
+/*10.Write a C++ Program to exchange values of two variables b/w two classes using friend function.*/
+/*
+class B;
+class A
+{
+	int x,y;
+	public:
+		A():x(10),y(20){};
+		friend void exchange(A &,B &);
+		friend void print(A &,B &);
+};
+class B
+{
+	int a,b;
+	public:
+		B():a(11),b(22){};
+		friend void exchange(A &,B &);
+		friend void print(A &,B &);
+};
+void exchange(A &ob1,B &ob2)
+{
+	int temp;
+
+	temp = ob1.x;
+	ob1.x = ob2.a;
+	ob2.a = temp; 
+	
+	temp = ob1.y;
+	ob1.y = ob2.b;
+	ob2.b = temp; 	
+}
+void print(A &ob1,B &ob2)
+{
+	cout <<"\t class A : x - " << ob1.x << " y - " << ob1.y << endl;
+	cout <<"\t class B : a - " << ob2.a << " b - " << ob2.b << endl;	
+}
+int main()
+{
+	A obj1;B obj2;
+	cout << "Before Exchange\n";
+	print(obj1,obj2);	
+	exchange(obj1,obj2);
+	cout << "After Exchange\n";
+	print(obj1,obj2);	
+}
+*/
+/*9.Write a C++ Program to define 3 classes. Read & Display the data for 3 classes using friend function.*/
+/*
+class C;
+class B;
+class A
+{
+	int a,b;	
+	public :
+		A(){a=10,b=20;}
+		friend void print(A &,B &,C &);
+};
+class B
+{
+	int a,b;	
+	public :
+		B(){a=11,b=22;}
+		friend void print(A &,B &,C &);
+};
+class C
+{
+	int a,b;	
+	public :
+		C(){a=12,b=24;}
+		friend void print(A &,B &,C &);
+};
+void print(A &ob1,B &ob2,C &ob3)
+{
+	cout << "In Print Function \n" ;
+	cout << "\t A\na - " << ob1.a << " y - " << ob1.b << endl; 
+	cout << "\t B\na - " << ob2.a << " y - " << ob2.b << endl; 
+	cout << "\t C\na - " << ob3.a << " y - " << ob3.b << endl; 
+}
+int main()
+{
+	A obj1;
+	B obj2;
+	C obj3;
+	print(obj1,obj2,obj3);
+}
+*/
+/*8.Write a C++ program to create a class complex with real and imaginary parts perform addition and subtraction of two complex objects.*/
+/*
+class A
+{
+	int real,imag;
+	public :
+	void setdata()
+	{
+		cout << "Enter real and imagnary value\n";	
+		cin >> real >> imag;
+	}
+	void print()
+	{
+		cout << real <<" + "<< imag << "i\n";	
+	}
+	A add(A &ob)
+	{	A temp;
+
+		temp.real = real + ob.real;
+		temp.imag = imag + ob.imag;
+		return temp;
+	} 
+	A sub(A &ob)
+	{	A temp;
+
+		temp.real = real - ob.real;
+		temp.imag = imag - ob.imag;
+		return temp;
+	}
+};
+int main()
+{
+	A obj1,obj2,obj3;
+	obj1.setdata();
+	obj2.setdata();
+	obj3 = obj1.add(obj2);
+	cout << "addition  : \n";
+
+	obj1.print();
+	obj2.print();
+	obj3.print();
+	
+	obj3 = obj1.sub(obj2);
+	
+	cout << "Subtraction  :  \n";
+	
+	obj1.print();
+	obj2.print();
+	obj3.print();
+}*/
+/*7.Write a C++ program to define a class called Student with data members as roll, name and marks. Define the appropriate member functions, 1)setdata 2)display for reading and displaying the data and also define a member function called sort to sort 5 students records according to roll, name & marks.*/
+/*
+#define MAX 5
+class A
+{
+	int roll;string name;float marks;
+	public :
+	void setdata()
+	{
+		
+		cin >> roll >> name >> marks;
+	}
+	void print()
+	{
+		cout << "Roll : - " << roll ;
+		cout << "	name : - " << name ;
+		cout << "	marks : - " << marks << endl;
+	}
+	friend void sort(A s[]);	
+};
+void sort(A s[])	
+{
+	cout << "Before Sorting \n";
+	for(int j=0;j<MAX;j++)
+		for(int i=0;i<MAX;i++)
+		{
+			if(s[j].roll < s[i].roll)
+			{
+				A temp;
+				temp = s[i];
+				s[i] = s[j];
+				s[j] = temp;		
+			}			
+		}
+	cout << "After Sorting \n";
+}
+int main()
+{
+	A stu[MAX];
+	cout << "Enter roll name marks : \n";
+	for(int i=0;i<MAX;i++)
+	{
+		stu[i].setdata();
+	}
+	for(int i=0;i<MAX;i++)
+	{
+		stu[i].print();
+	}
+	sort(stu);
+	for(int i=0;i<MAX;i++)
+	{
+		stu[i].print();
+	}
+
+}
+*/
+/*6.Write C++ program to calculate simple interest. Define the class called interest and hide the data elements of 	the class using private keyboard. Define the setdata member function to read the data through keyboard and 	define the print member function outside the class.
+	Formulae : interest = (P * N * R) / 100;
+	Total_amount = interest + P;
+	here,  	P -> Principle amount
+       	  	N -> Period (No.of years)
+          	R -> rate of interest
+*/
+/*
+class A
+{
+	float principle,rate,years;
+	public :
+	int setdata()
+	{
+	cout << "Enter the priciple amount/rate of interest/years\n";
+	cin >> principle >> rate >> years;
+	int n = (principle*rate*years);
+	return	n / 100;	
+	}
+	void print();
+		
+};
+void A::print()
+{
+	cout << " principle :- " << principle << endl;
+	cout << " rate :- " << rate << endl;
+	cout << " years :- " << years << endl;
+}
+int main()
+{
+	A interest;
+	int s = interest.setdata();
+	interest.print();
+	
+	cout << " simple interest :- " << s << "%\n";
+}*/
+/*5.Write a C++ programe with the Employee class that creates five employees; sets their Age, Year of Service, and Salary; provide  a method of Employee that reports how many  thousands of rupees the employee earns, rounded to the nearest Rs.80,000/-.
+*/
+/*
+#define MAX 5
+class A
+{
+	static int c,d;
+	int age[MAX],year[MAX];
+	float salary[MAX];
+	public :
+		A()
+		{
+			for(int i=0;i<MAX;i++)
+			{
+				cout << "Enter age | year of service | salary \n";
+				cin >> age[i] >> year[i] >> salary[i];
+			}
+		}
+		friend void print(A &);
+		friend void rounded(A &);
+};
+void print(A &ob)
+{
+	for(int i=0;i<MAX;i++)
+	{
+		cout << "Age :- " << ob.age[i] << " ";
+		cout << "Year Of Service :- " << ob.year[i] << " ";
+		cout << "Salary :- " << ob.salary[i] << "\n";
+	
+	}
+}
+void rounded(A &ob)
+{
+	for(int i=0;i<MAX;i++)
+	{
+		if(ob.salary[i] >= 80000)
+			ob.c++;
+		if(ob.salary[i] <= 80000)
+			ob.d++;
+	}
+	cout << "No. of employees having above 80000 salary : " << ob.c << "\n";
+	cout << "No. of employees having below 80000 salary : " << ob.d << "\n";
+}
+int A::c = 0;
+int A::d = 0;
+int main()
+{
+	A obj;
+	rounded(obj);
+	print(obj);
+}*/
+/*4.Write a C++ program to define a function with default Arguments. Whenever the function needs default values of arguments, it will prompt the user to enter a default value. Display the values?*/
+/*
+int val()
+{
+	int s;
+	cout << "Enter Default Argument : ";
+	cin >> s;
+	return s;
+}
+int add(int a=val(),int b=val(),int c=val(),int d=val(),int e=val())
+{
+	return a+b+c+d+e;
+}
+int main()
+{
+	int a,b,c,d,e;
+
+	int s ;
+	s = add(10);
+	cout << " Addition Of num : " << s << "\n";
+	
+}*/
+/*3.Write a C++ program to find the area of rectangle, triangle, and sphere using function Overloading.*/
+/*
+float area(float l,float b)
+{
+	return l*b;
+}
+float area(float x, float y,float z)
+{ 
+	float s ; s = (x+y+z)/2;
+	float n = s*(s-x)*(s-y)*(s-z) ; 
+	return  sqrt(n) ;	
+}
+float area(float r)
+{
+	return 4*3.14*r*r;
+}
+int main()
+{
+	float length , breadth;
+	cout << "enter length & breadth : ";
+	cin >> length >> breadth;
+	float a = area(length,breadth);
+	cout << "Area Of reactangle : " << a << "\n";
+	
+	float x,y,z ;
+	cout << "enter x , y ,z of triangle: ";
+	cin >> x >> y >> z ;
+	float b = area(x,y,z);
+	cout << "Area Of triangle : " << b << "\n";
+
+	
+	float radius;
+	cout << "enter radius of sphare : ";
+	cin >> radius ;
+	float c = area(radius);
+	cout << "Area Of sphare : " << c << "\n";
+}*/
+/*2.Write a C++ program to swap two integers, floats and characters using function Overloading*/
+/*
+void swap(int a ,int b )
+{
+	int temp;
+	temp = a;a = b;b = temp;
+	cout << "after swapping : a - " << a << " b - "<< b << "\n";
+}
+void swap(char a,char b)
+{
+	char temp;
+	temp = a;a = b;b = temp;
+	cout << "after swapping : a - " << a << " b - "<< b << "\n";
+}
+void swap(float a,float b)
+{
+	float temp;
+	temp = a;a = b;b = temp;
+	cout << "after swapping : a - " << a << " b - "<< b << "\n";
+}
+int main()
+{
+	int x,y;
+	cout << "Enter two integer : ";
+	cin >> x >> y;
+	cout << "before swapping : a - " << x << " b - "<< y << "\n";
+	swap(x,y);
+	
+	char n,s;
+	cout << "Enter two char : ";
+	cin >> n >> s;
+	cout << "before swapping : a - " << n << " b - "<< s << "\n";
+	swap(n,s);
+	
+	float nir,shr;
+	cout << "Enter two float : ";
+	cin >> nir >> shr;
+	cout << "before swapping : a - " << nir << " b - "<< shr << "\n";
+	swap(nir,shr);
+
+}
+*/
+/*1.Write a C++ program to swap two variables using function. (Don't use Pointers).*/
+
+/*
+int  swap(int x,int y)
+{
+	int temp;
+
+	temp = x;
+         x = y;
+	y = temp;
+	cout << "	AFTER\nx - " << x << " y - " << y << "\n" ;
+	
+}
+int main()
+{
+	int x,y;
+	cout << "Enter two variables\n" ;
+	cin >> x >> y ;
+	cout << "	BEFORE\n x - " << x << " y - " << y << "\n" ;
+	
+	swap(x,y);
+}
+*/
